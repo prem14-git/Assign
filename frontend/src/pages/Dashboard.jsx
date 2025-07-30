@@ -382,6 +382,7 @@
 import React, { useEffect, useState } from "react";
 import LogoutButton from "../components/LogoutButton.jsx";
 import { Link } from "react-router-dom";
+import { buildApiUrl } from "../config/api.js";
 
 const Dashboard = () => {
   const [sessions, setSessions] = useState([]);
@@ -393,7 +394,7 @@ const Dashboard = () => {
       setLoading(true);
       setError("");
       try {
-        const res = await fetch("/api/sessions");
+        const res = await fetch(buildApiUrl("/sessions"));
         const data = await res.json();
         if (!res.ok) throw new Error(data.message || "Failed to fetch sessions");
         setSessions(data);

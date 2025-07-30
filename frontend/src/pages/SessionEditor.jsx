@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
+import { buildApiUrl } from "../config/api.js";
 
 const AUTO_SAVE_DELAY = 5000; // 5 seconds
 
@@ -15,6 +16,7 @@ const SessionEditor = () => {
   const [sessionId, setSessionId] = useState(id || null);
   const [isLoading, setIsLoading] = useState(false);
   const [isPublishing, setIsPublishing] = useState(false);
+  const [isManualSaving, setIsManualSaving] = useState(false); // Flag to prevent auto-save during manual save
   const timerRef = useRef(null);
 
   // Fetch session if editing
@@ -24,7 +26,7 @@ const SessionEditor = () => {
       setIsLoading(true);
       try {
         const token = localStorage.getItem("token");
-        const res = await fetch(`/api/my-sessions/${id}`, {
+        const res = await fetch(buildApiUrl(`/my-sessions/${id}`), {
           headers: { Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
@@ -42,11 +44,16 @@ const SessionEditor = () => {
     fetchSession();
   }, [id]);
 
-  const saveDraft = async (showMessage = true) => {
+  const saveDraft = async (showMessage = true, isAutoSave = false) => {
+    // Prevent auto-save if manual save is in progress
+    if (isAutoSave && isManualSaving) {
+      return;
+    }
+
     setError("");
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("/api/my-sessions/save-draft", {
+      const res = await fetch(buildApiUrl("/my-sessions/save-draft"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -73,20 +80,35 @@ const SessionEditor = () => {
   // Auto-save effect
   useEffect(() => {
     if (!title && !jsonFileUrl) return; // Don't auto-save empty form
+    if (isManualSaving) return; // Don't auto-save during manual save
+    
     setAutoSaved(false);
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
-      saveDraft(false); // Auto-save, no message
+      saveDraft(false, true); // Auto-save, no message, mark as auto-save
     }, AUTO_SAVE_DELAY);
     return () => clearTimeout(timerRef.current);
-  }, [title, tags, jsonFileUrl]);
+  }, [title, tags, jsonFileUrl, isManualSaving]);
 
   const handleSaveDraft = async (e) => {
     e.preventDefault();
     setMessage("");
+    setIsManualSaving(true); // Set flag to prevent auto-save
     setIsLoading(true);
-    await saveDraft(true);
+    
+    // Clear any pending auto-save timer
+    if (timerRef.current) {
+      clearTimeout(timerRef.current);
+    }
+    
+    await saveDraft(true, false); // Manual save, show message, not auto-save
     setIsLoading(false);
+    setIsManualSaving(false); // Clear flag after manual save
+    
+    // Redirect to my-sessions after successful save
+    setTimeout(() => {
+      navigate("/my-sessions");
+    }, 1500); // Give user time to see the success message
   };
 
   const handlePublish = async () => {
@@ -99,7 +121,7 @@ const SessionEditor = () => {
     setIsPublishing(true);
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("/api/my-sessions/publish", {
+      const res = await fetch(buildApiUrl("/my-sessions/publish"), {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
+import { buildApiUrl } from "../config/api.js";
 
 const MySessions = () => {
   const [sessions, setSessions] = useState([]);
@@ -16,7 +17,7 @@ const MySessions = () => {
     setError("");
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch("/api/my-sessions", {
+      const res = await fetch(buildApiUrl("/my-sessions"), {
         headers: { Authorization: `Bearer ${token}` },
       });
       const data = await res.json();
@@ -33,7 +34,7 @@ const MySessions = () => {
     if (!window.confirm("Are you sure you want to delete this session? This action cannot be undone.")) return;
     try {
       const token = localStorage.getItem("token");
-      const res = await fetch(`/api/my-sessions/${id}`, {
+      const res = await fetch(buildApiUrl(`/my-sessions/${id}`), {
         method: "DELETE",
         headers: { Authorization: `Bearer ${token}` },
       });

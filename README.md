@@ -63,6 +63,7 @@ cp .env.example .env
 PORT=5000
 MONGO_URI=mongodb://localhost:27017/wellness
 JWT_SECRET=your-super-secret-jwt-key-here
+JWT_EXPIRES_IN=2h
 ```
 
 #### Frontend Environment
@@ -79,6 +80,7 @@ cp .env.example .env
 3. Update the `.env` file:
 ```env
 VITE_API_URL=http://localhost:5000/api
+VITE_API_TIMEOUT=5000
 ```
 
 ### 3. Install Dependencies

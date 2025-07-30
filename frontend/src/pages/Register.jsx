@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { buildApiUrl } from "../config/api.js";
 
 const Register = () => {
   const [email, setEmail] = useState("");
@@ -25,7 +26,7 @@ const Register = () => {
     
     try {
       // Register the user
-      const registerRes = await fetch("/api/auth/register", {
+      const registerRes = await fetch(buildApiUrl("/auth/register"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
@@ -34,7 +35,7 @@ const Register = () => {
       if (!registerRes.ok) throw new Error(registerData.message || "Registration failed");
       
       // Automatically log in the user after successful registration
-      const loginRes = await fetch("/api/auth/login", {
+      const loginRes = await fetch(buildApiUrl("/auth/login"), {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, password }),
