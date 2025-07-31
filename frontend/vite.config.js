@@ -10,7 +10,7 @@ export default defineConfig({
   ],
   server: {
     proxy: {
-      '/api': 'https://assign-backend-4i42.onrender.com',
+      '/api': 'http://localhost:5000',
     },
   },
 })
