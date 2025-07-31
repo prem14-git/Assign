@@ -9,7 +9,7 @@ A full-stack web application for managing wellness sessions with user authentica
 - **Draft System**: Save sessions as drafts before publishing
 - **Public Sessions**: View published sessions from all users
 - **Modern UI**: Built with React and Tailwind CSS
-- **Real-time Updates**: Auto-save functionality for session drafts
+- **Real-time Updates**: Auto-save functionality for session drafts (after every 5 sec)
 
 ## 🛠️ Tech Stack
 
