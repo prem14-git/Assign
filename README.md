@@ -55,7 +55,7 @@ cd backend
 
 2. Create a `.env` file:
 ```bash
-cp .env.example .env
+env.example (refer from backend)
 ```
 
 3. Update the `.env` file with your configuration:
@@ -64,6 +64,7 @@ PORT=5000
 MONGO_URI=mongodb://localhost:27017/wellness
 JWT_SECRET=your-super-secret-jwt-key-here
 JWT_EXPIRES_IN=2h
+FRONTEND_URL=http://localhost:5173
 ```
 
 #### Frontend Environment
@@ -74,13 +75,14 @@ cd frontend
 
 2. Create a `.env` file:
 ```bash
-cp .env.example .env
+env.example (refer from frontend)
 ```
 
 3. Update the `.env` file:
 ```env
 VITE_API_URL=http://localhost:5000/api
 VITE_API_TIMEOUT=5000
+NODE_ENV=development
 ```
 
 ### 3. Install Dependencies
@@ -379,33 +381,5 @@ Assign/
 }
 ```
 
-## 🚀 Deployment
-
-### Backend Deployment
-1. Set up your production environment variables
-2. Deploy to your preferred hosting service (Heroku, Railway, etc.)
-3. Ensure MongoDB is properly configured
-
-### Frontend Deployment
-1. Build the production version:
-```bash
-cd frontend
-npm run build
-```
-2. Deploy the `dist` folder to your hosting service
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Test thoroughly
-5. Submit a pull request
-
-## 📝 License
-
-This project is licensed under the ISC License.
-
-## 🆘 Support
-
-If you encounter any issues or have questions, please open an issue in the repository. 
+The project is live ⏺️
+Demo link : https://assign-44566.web.app
