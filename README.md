@@ -2,6 +2,9 @@
 
 A full-stack web application for managing wellness sessions with user authentication, session creation, and publishing capabilities. Built with React frontend and Node.js backend with MongoDB database.
 
+The project is live ⏺️
+Demo link : https://assign-44566.web.app
+
 ## 🚀 Features
 
 - **User Authentication**: Secure registration and login with JWT tokens
@@ -380,6 +383,3 @@ Assign/
   updated_at: Date
 }
 ```
-
-The project is live ⏺️
-Demo link : https://assign-44566.web.app
